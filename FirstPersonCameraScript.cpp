@@ -1,5 +1,8 @@
 #include "FirstPersonCameraScript.h"
 #include <chrono>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 
 void FirstPersonCameraScript::startScript() {
 
@@ -11,30 +14,82 @@ void FirstPersonCameraScript::tickScript(float deltaTime) {
 
 	float width = 800;
 	float height = 800;
+	glm::vec3 rotation(0.f, 0.01f, 0.f);
+	float angle = 0.01f;
 	
 	ComponentHandle<Camera> cam = entity->get<Camera>();
 
 	glm::vec3 currentPosition = cam->position;
+	glm::vec3 currentOrientation = cam->orientation;
+	glm::vec3 desiredOrientation = cam->orientation;
 	glm::vec3 desiredPosition = cam->position;
 
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		desiredPosition += speedDelta * -glm::normalize(glm::cross(cam->orientation, cam->up));
+		float cosAngle = cos(angle);
+		float sinAngle = sin(angle);
+
+		glm::mat3 rotationMatrix(cosAngle, 0, -sinAngle,
+									0, 1, 0,
+								sinAngle, 0, cosAngle);
+
+		desiredOrientation = rotationMatrix * desiredOrientation;
+		desiredPosition += speedDelta * glm::normalize(glm::cross(cam->orientation, cam->up));
+
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		desiredPosition += speedDelta * glm::normalize(glm::cross(cam->orientation, cam->up));
+		float cosAngle = cos(-angle);
+		float sinAngle = sin(-angle);
+
+		// Compute the rotation matrix around the camera's up vector
+		glm::mat3 rotationMatrix(cosAngle, 0, -sinAngle,
+			0, 1, 0,
+			sinAngle, 0, cosAngle);
+
+		desiredOrientation = rotationMatrix * desiredOrientation;
+		desiredPosition += (speedDelta * -glm::normalize(glm::cross(cam->orientation, cam->up)));
+
+
+	}
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		float cosAngle = cos(angle);
+		float sinAngle = sin(angle);
+
+		// Compute the rotation matrix around the camera's right vector
+		glm::mat3 verticalRotationMatrix(glm::vec3(1, 0, 0),
+			glm::vec3(0, cosAngle, -sinAngle),
+			glm::vec3(0, sinAngle, cosAngle));
+
+		desiredOrientation = verticalRotationMatrix * desiredOrientation;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		float cosAngle = cos(-angle);
+		float sinAngle = sin(-angle);
+
+		glm::mat3 verticalRotationMatrix(glm::vec3(1, 0, 0),
+			glm::vec3(0, cosAngle, -sinAngle),
+			glm::vec3(0, sinAngle, cosAngle));
+
+		desiredOrientation = verticalRotationMatrix * desiredOrientation;
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		desiredPosition += speedDelta * cam->up;
+		desiredPosition += speedDelta * cam->orientation;
+		
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 	{
-		desiredPosition += speedDelta * -cam->up;
+		desiredPosition -= speedDelta * cam->orientation;
 	}
+	
+	cam->orientation = desiredOrientation;
+	cam->position = desiredPosition;
 
 	world->each<CubeCollider>([&](Entity* ent, ComponentHandle<CubeCollider> cubeColl) {
 
@@ -60,7 +115,7 @@ void FirstPersonCameraScript::tickScript(float deltaTime) {
 
 	});
 
-	cam->position = desiredPosition;
+
 
 	// Handles mouse inputs
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)

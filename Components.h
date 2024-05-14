@@ -18,13 +18,16 @@ struct Transform2D
 
 struct Transform3D
 {
-    Transform3D(glm::vec3 position, float scale) {
+    Transform3D(glm::vec3 position, glm::vec3 rotation, float scale, glm::mat4 modelMatrix) {
         this->position = position;
+        this->rotation = rotation;
         this->scale = scale;
+        this->modelMatrix = modelMatrix;
     }
-
     glm::vec3 position;
+    glm::vec3 rotation;
     float scale;
+    glm::mat4 modelMatrix;
 };
 
 struct Camera
@@ -33,6 +36,7 @@ struct Camera
         this->position = position;
         this->orientation = orientation;
         this->up = up;
+        
     }
 
     glm::vec3 position;
