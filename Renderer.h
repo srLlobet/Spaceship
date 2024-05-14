@@ -26,7 +26,7 @@ public:
         glm::vec3 color = glm::vec3(1.0f), string shaderName = "default");
 
     void DrawMesh(Mesh& mesh, Texture& texture, glm::mat4 proj, glm::vec3 position, float scale, Camera camera,
-        string shaderName = "default");
+         glm::mat4 modelMatrix, string shaderName = "default");
 
     void DrawSkybox(Mesh& mesh, Texture& texture, glm::mat4 projection, Camera cam);
 

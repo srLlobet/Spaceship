@@ -31,6 +31,7 @@ public:
 protected:
     Entity* entity;
     Entity* entityFollow;
+    Entity* entity2;
     GLFWwindow* window;
     World* world;
 };
