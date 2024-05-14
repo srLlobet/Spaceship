@@ -90,10 +90,19 @@
     <ClCompile Include="MeshManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="SpawnerScript.cpp">
+      <Filter>Archivos de origen\Scripts</Filter>
+    </ClCompile>
     <ClCompile Include="SkyboxScript.cpp">
       <Filter>Archivos de origen\Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="ShipFollow.cpp">
+    <ClCompile Include="PlanetMovementScript.cpp">
+      <Filter>Archivos de origen\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetFollow.cpp">
+      <Filter>Archivos de origen\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="RadarSwap.cpp">
       <Filter>Archivos de origen\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -172,10 +181,16 @@
     <ClInclude Include="MeshManager.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="SpawnerScript.h">
+      <Filter>Archivos de encabezado\Scripts</Filter>
+    </ClInclude>
     <ClInclude Include="SkyboxScript.h">
       <Filter>Archivos de encabezado\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="ShipFollow.h">
+    <ClInclude Include="PlanetMovementScript.h">
+      <Filter>Archivos de encabezado\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetFollow.h">
       <Filter>Archivos de encabezado\Scripts</Filter>
     </ClInclude>
   </ItemGroup>

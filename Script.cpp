@@ -20,7 +20,6 @@ Script::Script(GLFWwindow* window, World* world, Entity* entity) {
 	this->window = window;
 	this->entity = entity;
 	this->world = world;
-	
 }
 
 void Script::startScript()

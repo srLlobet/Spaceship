@@ -90,7 +90,7 @@ void Renderer::DrawSprite(Texture& texture, glm::mat4 proj, glm::vec2 position,
 double prevTime = glfwGetTime();
 
 void Renderer::DrawMesh(Mesh& mesh, Texture& texture, glm::mat4 projection, glm::vec3 position, float scale, Camera cam,
-    glm::mat4 modelMatrix, string shaderName)
+    string shaderName)
 {
 
     std::shared_ptr<Shader> shader = shaderDefault;
@@ -98,15 +98,18 @@ void Renderer::DrawMesh(Mesh& mesh, Texture& texture, glm::mat4 projection, glm:
     // prepare transformations
     shader->Activate();
 
-
+    glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 view = glm::mat4(1.0f);
     glm::mat4 proj = glm::mat4(1.0f);
 
+    model = glm::rotate(model, glm::radians(0.f), glm::vec3(0.0f, 0.1f, 0.0f));
+    model = glm::translate(model, glm::vec3(position));
+    model = glm::scale(model, glm::vec3(scale, scale, scale));
 
     view = glm::lookAt(cam.position, cam.position + cam.orientation, cam.up);
     proj = glm::perspective(glm::radians(45.0f), (float)(800 / 800), 0.1f, 100.0f);
 
-    shader->SetMatrix4("model", modelMatrix);
+    shader->SetMatrix4("model", model);
     shader->SetMatrix4("view", view);
     shader->SetMatrix4("proj", proj);
 

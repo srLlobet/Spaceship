@@ -61,7 +61,7 @@ void RenderSystem::tick(World* world, float deltaTime)
 
         ComponentHandle<Camera> cam = camera->get<Camera>();
 
-        rend.DrawMesh(mesh, texture, proj, transform->position, transform->scale, cam.get(), transform->modelMatrix, meshComp->shaderName);
+        rend.DrawMesh(mesh, texture, proj, transform->position, transform->scale, cam.get(), meshComp->shaderName);
 
     });
 
